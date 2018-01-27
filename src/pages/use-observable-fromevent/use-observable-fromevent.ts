@@ -28,7 +28,7 @@ export class UseObservableFromEventPage {
     view: ViewController
   ) {
     view.didEnter.subscribe(() => {
-      focusService.focus("ion-input input");
+      focusService.focus("ion-input");
 
       const input = view.contentRef().nativeElement.querySelector("ion-input");
       this.eventHandler$ = Observable.fromEvent<KeyboardEvent>(input, "keyup")

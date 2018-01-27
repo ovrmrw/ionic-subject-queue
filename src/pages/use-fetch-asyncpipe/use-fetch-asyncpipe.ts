@@ -20,7 +20,7 @@ export class UseFetchAsyncPipePage {
     view: ViewController
   ) {
     view.didEnter.subscribe(() => {
-      focusService.focus("ion-input input");
+      focusService.focus("ion-input");
     });
   }
 

@@ -28,7 +28,7 @@ export class UseSubjectQueuePage {
     view: ViewController
   ) {
     view.didEnter.subscribe(() => {
-      focusService.focus("ion-input input");
+      focusService.focus("ion-input");
 
       this.disposable$ = this.queue$
         .debounceTime(200)

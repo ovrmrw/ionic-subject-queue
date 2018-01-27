@@ -7,12 +7,17 @@ export class FocusService {
 
   focus(selector: string): void {
     setTimeout(() => {
-      const element = this.view
-        .contentRef()
-        .nativeElement.querySelector(selector);
-      if (element && typeof element.focus === "function") {
-        element.focus();
-      }
+      const selectors: string[] = [selector, selector + " input"];
+      selectors.forEach(s => this._focus(s));
     });
+  }
+
+  private _focus(selector: string): void {
+    const element: HTMLInputElement = this.view
+      .contentRef()
+      .nativeElement.querySelector(selector);
+    if (element && typeof element.focus === "function") {
+      element.focus();
+    }
   }
 }
