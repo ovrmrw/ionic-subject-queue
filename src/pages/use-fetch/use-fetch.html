@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Fetch</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      Qiita検索 (by Fetch)
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label color="primary">検索キーワード</ion-label>
+        <ion-input (input)="requestQiitaItems($event.target.value)" placeholder="ここに入力してください"></ion-input>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+  <ion-list>
+    <button ion-item *ngFor="let item of items" (click)="clickItem(item.url)">
+      {{ item.title }}
+    </button> 
+  </ion-list>
+</ion-content>

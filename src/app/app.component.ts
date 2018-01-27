@@ -1,30 +1,57 @@
-import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
+import { Component, ViewChild } from "@angular/core";
+import { Nav, Platform } from "ionic-angular";
+import { StatusBar } from "@ionic-native/status-bar";
+import { SplashScreen } from "@ionic-native/splash-screen";
 
-import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+import { HomePage } from "../pages/home/home";
+import { ListPage } from "../pages/list/list";
+import { UseFetchPage } from "../pages/use-fetch/use-fetch";
+import { UseFetchAsyncPipePage } from "../pages/use-fetch-asyncpipe/use-fetch-asyncpipe";
+import { UseHttpClientAsyncPipePage } from "../pages/use-httpclient-asyncpipe/use-httpclient-asyncpipe";
+import { UseObservableFromEventPage } from "../pages/use-observable-fromevent/use-observable-fromevent";
+import { UseSubjectQueuePage } from "../pages/use-subject-queue/use-subject-queue";
+
+interface PageObject {
+  title: string;
+  component: any;
+}
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: "app.html"
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = HomePage;
 
-  pages: Array<{title: string, component: any}>;
+  pages: Array<PageObject>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(
+    public platform: Platform,
+    public statusBar: StatusBar,
+    public splashScreen: SplashScreen
+  ) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage }
+      { title: "Home", component: HomePage },
+      { title: "List", component: ListPage },
+      { title: "Fetch", component: UseFetchPage },
+      { title: "Fetch with AsyncPipe", component: UseFetchAsyncPipePage },
+      {
+        title: "HttpClient with AsyncPipe",
+        component: UseHttpClientAsyncPipePage
+      },
+      {
+        title: "HttpClient with Observable.fromEvent and AsyncPipe",
+        component: UseObservableFromEventPage
+      },
+      {
+        title: "HttpClient with Subject queue and AsyncPipe",
+        component: UseSubjectQueuePage
+      }
     ];
-
   }
 
   initializeApp() {
