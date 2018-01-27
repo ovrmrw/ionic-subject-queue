@@ -13,6 +13,7 @@ import { FocusService } from "../../services/focus.service";
 export class UseFetchAsyncPipePage {
   // items: QiitaItem[];
   items$: Promise<QiitaItem[]> | Observable<QiitaItem[]>;
+  requestCount: number = 0;
 
   constructor(
     private qiitaService: QiitaService,
@@ -25,7 +26,12 @@ export class UseFetchAsyncPipePage {
   }
 
   requestQiitaItems(text: string): void {
-    this.items$ = this.qiitaService.requestQiitaItemsByFetch(text);
+    this.items$ = this.qiitaService
+      .requestQiitaItemsByFetch(text)
+      .then(items => {
+        this.requestCount++;
+        return items;
+      });
     // this.items$.then(items => {
     //   this.items = items;
     // });

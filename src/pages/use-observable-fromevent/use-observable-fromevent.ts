@@ -8,6 +8,7 @@ import "rxjs/add/operator/switchMap";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/distinctUntilChanged";
 import "rxjs/add/operator/startWith";
+import "rxjs/add/operator/do";
 import { QiitaService } from "../../services/qiita.service";
 import { QiitaItem } from "../../types/index";
 import { FocusService } from "../../services/focus.service";
@@ -21,6 +22,7 @@ export class UseObservableFromEventPage {
   items: QiitaItem[];
   // items$: Promise<QiitaItem[]> | Observable<QiitaItem[]>;
   private eventHandler$: Subscription;
+  requestCount: number = 0;
 
   constructor(
     private qiitaService: QiitaService,
@@ -36,7 +38,9 @@ export class UseObservableFromEventPage {
         .map(event => (event.target as HTMLInputElement).value)
         .distinctUntilChanged() // 前回と違う値が流れてきたときだけ通す。
         .switchMap(text =>
-          this.qiitaService.requestQiitaItemsByHttpClient(text)
+          this.qiitaService
+            .requestQiitaItemsByHttpClient(text)
+            .do(() => this.requestCount++)
         )
         .startWith([]) // this.items$の初期値をセットする。
         .subscribe(items => {

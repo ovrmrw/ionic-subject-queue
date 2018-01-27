@@ -7,6 +7,7 @@ import "rxjs/add/operator/switchMap";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/distinctUntilChanged";
 import "rxjs/add/operator/startWith";
+import "rxjs/add/operator/do";
 import { QiitaService } from "../../services/qiita.service";
 import { QiitaItem } from "../../types/index";
 import { FocusService } from "../../services/focus.service";
@@ -21,6 +22,7 @@ export class UseSubjectQueuePage {
   // items$: Promise<QiitaItem[]> | Observable<QiitaItem[]>;
   private queue$: Subject<string> = new Subject();
   private disposable$: Subscription;
+  requestCount: number = 0;
 
   constructor(
     private qiitaService: QiitaService,
@@ -34,7 +36,9 @@ export class UseSubjectQueuePage {
         .debounceTime(200)
         .distinctUntilChanged()
         .switchMap(text =>
-          this.qiitaService.requestQiitaItemsByHttpClient(text)
+          this.qiitaService
+            .requestQiitaItemsByHttpClient(text)
+            .do(() => this.requestCount++)
         )
         .startWith([])
         .subscribe(items => {
