@@ -19,9 +19,25 @@
       </ion-item>
     </ion-card-content>
   </ion-card>
+
   <ion-list>
     <button ion-item *ngFor="let item of items$ | async" (click)="clickItem(item.url)">
       {{ item.title }}
     </button> 
   </ion-list>
+
+  <ion-card *ngIf="!items$ || (items$ | async)?.length === 0">
+    <ion-card-header>
+      <ul>
+        <li>非同期処理: HttpClient</li>
+        <li>AsyncPipe: あり</li>
+      </ul>
+    </ion-card-header>
+    <ion-card-content>
+      <ul>
+        <li>キーボード入力の度に新しい非同期処理が作成されるが、<strong>HttpClientとAsyncPipeのコンビネーションにより最後の非同期処理以外は自動的にキャンセルされる。</strong></li>
+        <li>処理効率は良いが、キャンセル前にリクエストがAPIまで到達していたらAPI呼び出しはされてしまう。</li>
+      </ul>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

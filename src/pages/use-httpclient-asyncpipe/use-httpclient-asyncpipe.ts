@@ -11,7 +11,7 @@ import { FocusService } from "../../services/focus.service";
   providers: [FocusService]
 })
 export class UseHttpClientAsyncPipePage {
-  // items: QiitaItem[];
+  // items: QiitaItem[] = [];
   items$: Promise<QiitaItem[]> | Observable<QiitaItem[]>;
 
   constructor(
@@ -26,9 +26,6 @@ export class UseHttpClientAsyncPipePage {
 
   requestQiitaItems(text: string): void {
     this.items$ = this.qiitaService.requestQiitaItemsByHttpClient(text);
-    // this.items$.then(items => {
-    //   this.items = items;
-    // });
   }
 
   clickItem(url: string): void {

@@ -19,9 +19,25 @@
       </ion-item>
     </ion-card-content>
   </ion-card>
+
   <ion-list>
     <button ion-item *ngFor="let item of items" (click)="clickItem(item.url)">
       {{ item.title }}
     </button> 
   </ion-list>
+
+  <ion-card *ngIf="!items || items?.length === 0">
+    <ion-card-header>
+      <ul>
+        <li>非同期処理: Fetch</li>
+        <li>AsyncPipe: なし</li>
+      </ul>
+    </ion-card-header>
+    <ion-card-content>
+      <ul>
+        <li>キーボード入力の度に新しい非同期処理が作成され、並列で走るので<strong>どの非同期処理の結果がViewに反映されるかがわからない。</strong></li>
+        <li>(AsyncPipeを使っていないのでリストの表示に関してキューイングがされていない。)</li>
+      </ul>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

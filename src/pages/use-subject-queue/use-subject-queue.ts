@@ -2,11 +2,10 @@ import { Component } from "@angular/core";
 import { ViewController } from "ionic-angular";
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
-import "rxjs/add/observable/fromEvent";
-import "rxjs/add/operator/map";
 import "rxjs/add/operator/switchMap";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/distinctUntilChanged";
+import "rxjs/add/operator/startWith";
 import { QiitaService } from "../../services/qiita.service";
 import { QiitaItem } from "../../types/index";
 import { FocusService } from "../../services/focus.service";
@@ -17,7 +16,7 @@ import { FocusService } from "../../services/focus.service";
   providers: [FocusService]
 })
 export class UseSubjectQueuePage {
-  // items: QiitaItem[];
+  // items: QiitaItem[] = [];
   items$: Promise<QiitaItem[]> | Observable<QiitaItem[]>;
   queue$: Subject<string> = new Subject();
 
@@ -34,7 +33,8 @@ export class UseSubjectQueuePage {
         .distinctUntilChanged()
         .switchMap(text =>
           this.qiitaService.requestQiitaItemsByHttpClient(text)
-        );
+        )
+        .startWith([]);
     });
 
     view.didLeave.subscribe(() => {
@@ -44,9 +44,6 @@ export class UseSubjectQueuePage {
 
   requestQiitaItems(text: string): void {
     // this.items$ = this.qiitaService.requestQiitaItemsByFetch(text);
-    // this.items$.then(items => {
-    //   this.items = items;
-    // });
     this.queue$.next(text);
   }
 
