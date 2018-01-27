@@ -44,11 +44,11 @@ export class MyApp {
         component: UseHttpClientAsyncPipePage
       },
       {
-        title: "HttpClient with Observable.fromEvent and AsyncPipe",
+        title: "HttpClient with Observable.fromEvent",
         component: UseObservableFromEventPage
       },
       {
-        title: "HttpClient with Subject queue and AsyncPipe",
+        title: "HttpClient with Subject queue",
         component: UseSubjectQueuePage
       }
     ];

@@ -11,7 +11,7 @@ import { FocusService } from "../../services/focus.service";
   providers: [FocusService]
 })
 export class UseHttpClientAsyncPipePage {
-  // items: QiitaItem[] = [];
+  // items: QiitaItem[];
   items$: Promise<QiitaItem[]> | Observable<QiitaItem[]>;
 
   constructor(

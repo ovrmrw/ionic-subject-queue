@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { ViewController } from "ionic-angular";
 import { Observable } from "rxjs/Observable";
+import { Subscription } from "rxjs/Subscription";
 import "rxjs/add/observable/fromEvent";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/switchMap";
@@ -17,9 +18,9 @@ import { FocusService } from "../../services/focus.service";
   providers: [FocusService]
 })
 export class UseObservableFromEventPage {
-  // items: QiitaItem[] = [];
-  items$: Promise<QiitaItem[]> | Observable<QiitaItem[]>;
-  hasValue: boolean = false;
+  items: QiitaItem[];
+  // items$: Promise<QiitaItem[]> | Observable<QiitaItem[]>;
+  eventHandler$: Subscription;
 
   constructor(
     private qiitaService: QiitaService,
@@ -30,14 +31,23 @@ export class UseObservableFromEventPage {
       focusService.focus("ion-input input");
 
       const input = view.contentRef().nativeElement.querySelector("ion-input");
-      this.items$ = Observable.fromEvent<KeyboardEvent>(input, "keyup")
+      this.eventHandler$ = Observable.fromEvent<KeyboardEvent>(input, "keyup")
         .debounceTime(200) // 200ms間隔が空くのを待つ。
         .map(event => (event.target as HTMLInputElement).value)
         .distinctUntilChanged() // 前回と違う値が流れてきたときだけ通す。
         .switchMap(text =>
           this.qiitaService.requestQiitaItemsByHttpClient(text)
         )
-        .startWith([]); // this.items$の初期値をセットする。
+        .startWith([]) // this.items$の初期値をセットする。
+        .subscribe(items => {
+          this.items = items;
+        });
+    });
+
+    view.didLeave.subscribe(() => {
+      if (this.eventHandler$) {
+        this.eventHandler$.unsubscribe();
+      }
     });
   }
 
