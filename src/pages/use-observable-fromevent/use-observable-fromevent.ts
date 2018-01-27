@@ -20,7 +20,7 @@ import { FocusService } from "../../services/focus.service";
 export class UseObservableFromEventPage {
   items: QiitaItem[];
   // items$: Promise<QiitaItem[]> | Observable<QiitaItem[]>;
-  eventHandler$: Subscription;
+  private eventHandler$: Subscription;
 
   constructor(
     private qiitaService: QiitaService,

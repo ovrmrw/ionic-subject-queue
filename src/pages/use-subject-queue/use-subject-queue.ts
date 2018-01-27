@@ -19,8 +19,8 @@ import { FocusService } from "../../services/focus.service";
 export class UseSubjectQueuePage {
   items: QiitaItem[];
   // items$: Promise<QiitaItem[]> | Observable<QiitaItem[]>;
-  queue$: Subject<string> = new Subject();
-  disposable$: Subscription;
+  private queue$: Subject<string> = new Subject();
+  private disposable$: Subscription;
 
   constructor(
     private qiitaService: QiitaService,

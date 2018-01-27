@@ -12,7 +12,7 @@ import { FocusService } from "../../services/focus.service";
 })
 export class UseFetchPage {
   items: QiitaItem[];
-  items$: Promise<QiitaItem[]> | Observable<QiitaItem[]>;
+  private items$: Promise<QiitaItem[]> | Observable<QiitaItem[]>;
 
   constructor(
     private qiitaService: QiitaService,
