@@ -4,17 +4,20 @@ import { Subscription } from "rxjs/Subscription";
 
 @Injectable()
 export class DisposerService {
-  private _subs: Subscription[] | null = [];
+  private subs: Subscription[] | null;
+
   set stack(subscription: Subscription) {
-    this._subs.push(subscription);
+    this.subs.push(subscription);
   }
 
   constructor(view: ViewController) {
+    this.subs = [];
+
     view.didLeave.subscribe(() => {
-      if (this._subs) {
-        this._subs.forEach(sub => sub.unsubscribe());
+      if (this.subs) {
+        this.subs.forEach(sub => sub.unsubscribe());
       }
-      this._subs = null;
+      this.subs = null;
     });
   }
 }

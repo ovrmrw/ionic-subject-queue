@@ -1,7 +1,6 @@
 import { Component } from "@angular/core";
 import { ViewController } from "ionic-angular";
 import { Observable } from "rxjs/Observable";
-import { Subscription } from "rxjs/Subscription";
 import "rxjs/add/observable/fromEvent";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/switchMap";
