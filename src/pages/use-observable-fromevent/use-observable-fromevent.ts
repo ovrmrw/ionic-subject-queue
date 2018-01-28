@@ -16,7 +16,7 @@ import { FocusService } from "../../services/focus.service";
 @Component({
   selector: "page-use-observable-fromevent",
   templateUrl: "use-observable-fromevent.html",
-  providers: [FocusService]
+  providers: [FocusService, DisposerService]
 })
 export class UseObservableFromEventPage {
   items: QiitaItem[];
@@ -27,13 +27,14 @@ export class UseObservableFromEventPage {
   constructor(
     private qiitaService: QiitaService,
     focusService: FocusService,
+    disposer: DisposerService,
     view: ViewController
   ) {
     view.didEnter.subscribe(() => {
       focusService.focus("ion-input");
 
       const input = view.contentRef().nativeElement.querySelector("ion-input");
-      this.eventHandler$ = Observable.fromEvent<KeyboardEvent>(input, "keyup")
+      disposer.stack = Observable.fromEvent<KeyboardEvent>(input, "keyup")
         .debounceTime(200) // 200ms間隔が空くのを待つ。
         .map(event => (event.target as HTMLInputElement).value)
         .distinctUntilChanged() // 前回と違う値が流れてきたときだけ通す。
@@ -46,12 +47,6 @@ export class UseObservableFromEventPage {
         .subscribe(items => {
           this.items = items;
         });
-    });
-
-    view.didLeave.subscribe(() => {
-      if (this.eventHandler$) {
-        this.eventHandler$.unsubscribe();
-      }
     });
   }
 

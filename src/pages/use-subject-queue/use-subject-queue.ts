@@ -11,11 +11,12 @@ import "rxjs/add/operator/do";
 import { QiitaService } from "../../services/qiita.service";
 import { QiitaItem } from "../../types/index";
 import { FocusService } from "../../services/focus.service";
+import { DisposerService } from "../../services/disposer.service";
 
 @Component({
   selector: "page-use-subject-queue",
   templateUrl: "use-subject-queue.html",
-  providers: [FocusService]
+  providers: [FocusService, DisposerService]
 })
 export class UseSubjectQueuePage {
   items: QiitaItem[];
@@ -27,12 +28,13 @@ export class UseSubjectQueuePage {
   constructor(
     private qiitaService: QiitaService,
     focusService: FocusService,
+    disposer: DisposerService,
     view: ViewController
   ) {
     view.didEnter.subscribe(() => {
       focusService.focus("ion-input");
 
-      this.disposable$ = this.queue$
+      disposer.stack = this.queue$
         .debounceTime(200)
         .distinctUntilChanged()
         .switchMap(text =>
@@ -44,12 +46,6 @@ export class UseSubjectQueuePage {
         .subscribe(items => {
           this.items = items;
         });
-    });
-
-    view.didLeave.subscribe(() => {
-      if (this.disposable$) {
-        this.disposable$.unsubscribe();
-      }
     });
   }
 
