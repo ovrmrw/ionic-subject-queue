@@ -22,8 +22,8 @@ export class UseSubjectQueuePage {
   items: QiitaItem[];
   // items$: Promise<QiitaItem[]> | Observable<QiitaItem[]>;
   private queue$: Subject<string> = new Subject();
-  private disposable$: Subscription;
   requestCount: number = 0;
+  responseCount: number = 0;
 
   constructor(
     private qiitaService: QiitaService,
@@ -37,10 +37,11 @@ export class UseSubjectQueuePage {
       disposer.stack = this.queue$
         .debounceTime(200)
         .distinctUntilChanged()
+        .do(() => this.requestCount++)
         .switchMap(text =>
           this.qiitaService
             .requestQiitaItemsByHttpClient(text)
-            .do(() => this.requestCount++)
+            .do(() => this.responseCount++)
         )
         .startWith([])
         .subscribe(items => {

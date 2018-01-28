@@ -14,6 +14,7 @@ export class UseFetchAsyncPipePage {
   // items: QiitaItem[];
   items$: Promise<QiitaItem[]> | Observable<QiitaItem[]>;
   requestCount: number = 0;
+  responseCount: number = 0;
 
   constructor(
     private qiitaService: QiitaService,
@@ -26,15 +27,13 @@ export class UseFetchAsyncPipePage {
   }
 
   requestQiitaItems(text: string): void {
+    this.requestCount++;
     this.items$ = this.qiitaService
       .requestQiitaItemsByFetch(text)
       .then(items => {
-        this.requestCount++;
+        this.responseCount++;
         return items;
       });
-    // this.items$.then(items => {
-    //   this.items = items;
-    // });
   }
 
   clickItem(url: string): void {

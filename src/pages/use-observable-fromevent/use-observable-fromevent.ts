@@ -12,6 +12,7 @@ import "rxjs/add/operator/do";
 import { QiitaService } from "../../services/qiita.service";
 import { QiitaItem } from "../../types/index";
 import { FocusService } from "../../services/focus.service";
+import { DisposerService } from "../../services/disposer.service";
 
 @Component({
   selector: "page-use-observable-fromevent",
@@ -21,8 +22,8 @@ import { FocusService } from "../../services/focus.service";
 export class UseObservableFromEventPage {
   items: QiitaItem[];
   // items$: Promise<QiitaItem[]> | Observable<QiitaItem[]>;
-  private eventHandler$: Subscription;
   requestCount: number = 0;
+  responseCount: number = 0;
 
   constructor(
     private qiitaService: QiitaService,
@@ -38,10 +39,11 @@ export class UseObservableFromEventPage {
         .debounceTime(200) // 200ms間隔が空くのを待つ。
         .map(event => (event.target as HTMLInputElement).value)
         .distinctUntilChanged() // 前回と違う値が流れてきたときだけ通す。
+        .do(() => this.requestCount++)
         .switchMap(text =>
           this.qiitaService
             .requestQiitaItemsByHttpClient(text)
-            .do(() => this.requestCount++)
+            .do(() => this.responseCount++)
         )
         .startWith([]) // this.items$の初期値をセットする。
         .subscribe(items => {

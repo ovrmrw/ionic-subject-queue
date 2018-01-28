@@ -15,6 +15,7 @@ export class UseHttpClientAsyncPipePage {
   // items: QiitaItem[];
   items$: Promise<QiitaItem[]> | Observable<QiitaItem[]>;
   requestCount: number = 0;
+  responseCount: number = 0;
 
   constructor(
     private qiitaService: QiitaService,
@@ -27,9 +28,10 @@ export class UseHttpClientAsyncPipePage {
   }
 
   requestQiitaItems(text: string): void {
+    this.requestCount++;
     this.items$ = this.qiitaService
       .requestQiitaItemsByHttpClient(text)
-      .do(() => this.requestCount++);
+      .do(() => this.responseCount++);
   }
 
   clickItem(url: string): void {

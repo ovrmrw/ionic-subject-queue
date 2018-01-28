@@ -12,8 +12,8 @@ import { FocusService } from "../../services/focus.service";
 })
 export class UseFetchPage {
   items: QiitaItem[];
-  private items$: Promise<QiitaItem[]> | Observable<QiitaItem[]>;
   requestCount: number = 0;
+  responseCount: number = 0;
 
   constructor(
     private qiitaService: QiitaService,
@@ -26,9 +26,9 @@ export class UseFetchPage {
   }
 
   requestQiitaItems(text: string): void {
-    this.items$ = this.qiitaService.requestQiitaItemsByFetch(text);
-    this.items$.then(items => {
-      this.requestCount++;
+    this.requestCount++;
+    this.qiitaService.requestQiitaItemsByFetch(text).then(items => {
+      this.responseCount++;
       this.items = items;
     });
   }
