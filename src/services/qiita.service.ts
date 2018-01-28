@@ -6,7 +6,7 @@ import { QiitaItem } from "../types";
 
 @Injectable()
 export class QiitaService {
-  private readonly endpoint = "https://us-central1-qiita-api-functions.cloudfunctions.net/qiitaApi/items";
+  private readonly endpoint = "https://us-central1-qiita-api-functions.cloudfunctions.net/qiitaApiItems";
 
   constructor(private http: HttpClient) {}
 
