@@ -33,7 +33,7 @@ export class UseSubjectQueuePage {
     view.didEnter.subscribe(() => {
       focusService.focus("ion-input");
 
-      disposer.stack = this.queue$
+      disposer.stackWith = this.queue$
         .debounceTime(200) // 200ms間隔が空くのを待つ。
         .distinctUntilChanged() // 前回と違う値が流れてきたときだけ通す。
         .do(() => this.requestCount++) // リクエストが送られた回数をカウントする。

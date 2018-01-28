@@ -34,7 +34,7 @@ export class UseObservableFromEventPage {
       focusService.focus("ion-input");
 
       const input = view.contentRef().nativeElement.querySelector("ion-input");
-      disposer.stack = Observable.fromEvent<KeyboardEvent>(input, "keyup")
+      disposer.stackWith = Observable.fromEvent<KeyboardEvent>(input, "keyup")
         .debounceTime(200) // 200ms間隔が空くのを待つ。
         .map(event => (event.target as HTMLInputElement).value)
         .distinctUntilChanged() // 前回と違う値が流れてきたときだけ通す。

@@ -6,7 +6,10 @@ import { Subscription } from "rxjs/Subscription";
 export class DisposerService {
   private subs: Subscription[] | null;
 
-  set stack(subscription: Subscription) {
+  /**
+   * 自動的にunsubscribeさせたいSubscriptionを追加する。
+   */
+  set stackWith(subscription: Subscription) {
     this.subs.push(subscription);
   }
 
