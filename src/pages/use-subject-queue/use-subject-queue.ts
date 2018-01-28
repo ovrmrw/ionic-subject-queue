@@ -34,15 +34,17 @@ export class UseSubjectQueuePage {
       focusService.focus("ion-input");
 
       disposer.stack = this.queue$
-        .debounceTime(200)
-        .distinctUntilChanged()
-        .do(() => this.requestCount++)
-        .switchMap(text =>
-          this.qiitaService
-            .requestQiitaItemsByHttpClient(text)
-            .do(() => this.responseCount++)
+        .debounceTime(200) // 200ms間隔が空くのを待つ。
+        .distinctUntilChanged() // 前回と違う値が流れてきたときだけ通す。
+        .do(() => this.requestCount++) // リクエストが送られた回数をカウントする。
+        .switchMap(
+          // 未完了のリクエストをいい感じにキャンセルする。
+          text =>
+            this.qiitaService
+              .requestQiitaItemsByHttpClient(text)
+              .do(() => this.responseCount++) // レスポンスが返ってきた回数をカウントする。
         )
-        .startWith([])
+        .startWith([]) // this.itemsの初期値をセットする。
         .subscribe(items => {
           this.items = items;
         });
@@ -50,7 +52,6 @@ export class UseSubjectQueuePage {
   }
 
   requestQiitaItems(text: string): void {
-    // this.items$ = this.qiitaService.requestQiitaItemsByFetch(text);
     this.queue$.next(text);
   }
 

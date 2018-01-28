@@ -5,7 +5,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from "ionic-angular";
 
 import { MyApp } from "./app.component";
 import { HomePage } from "../pages/home/home";
-import { ListPage } from "../pages/list/list";
+// import { ListPage } from "../pages/list/list";
 import { UseFetchPage } from "../pages/use-fetch/use-fetch";
 import { UseFetchAsyncPipePage } from "../pages/use-fetch-asyncpipe/use-fetch-asyncpipe";
 import { UseHttpClientAsyncPipePage } from "../pages/use-httpclient-asyncpipe/use-httpclient-asyncpipe";
@@ -20,7 +20,7 @@ import { QiitaService } from "../services/qiita.service";
   declarations: [
     MyApp,
     HomePage,
-    ListPage,
+    // ListPage,
     UseFetchPage,
     UseFetchAsyncPipePage,
     UseHttpClientAsyncPipePage,
@@ -32,7 +32,7 @@ import { QiitaService } from "../services/qiita.service";
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage,
+    // ListPage,
     UseFetchPage,
     UseFetchAsyncPipePage,
     UseHttpClientAsyncPipePage,

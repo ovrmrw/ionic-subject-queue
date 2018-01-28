@@ -4,7 +4,7 @@ import { StatusBar } from "@ionic-native/status-bar";
 import { SplashScreen } from "@ionic-native/splash-screen";
 
 import { HomePage } from "../pages/home/home";
-import { ListPage } from "../pages/list/list";
+// import { ListPage } from "../pages/list/list";
 import { UseFetchPage } from "../pages/use-fetch/use-fetch";
 import { UseFetchAsyncPipePage } from "../pages/use-fetch-asyncpipe/use-fetch-asyncpipe";
 import { UseHttpClientAsyncPipePage } from "../pages/use-httpclient-asyncpipe/use-httpclient-asyncpipe";

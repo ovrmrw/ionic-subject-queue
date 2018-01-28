@@ -38,13 +38,15 @@ export class UseObservableFromEventPage {
         .debounceTime(200) // 200ms間隔が空くのを待つ。
         .map(event => (event.target as HTMLInputElement).value)
         .distinctUntilChanged() // 前回と違う値が流れてきたときだけ通す。
-        .do(() => this.requestCount++)
-        .switchMap(text =>
-          this.qiitaService
-            .requestQiitaItemsByHttpClient(text)
-            .do(() => this.responseCount++)
+        .do(() => this.requestCount++) // リクエストが送られた回数をカウントする。
+        .switchMap(
+          // 未完了のリクエストをいい感じにキャンセルする。
+          text =>
+            this.qiitaService
+              .requestQiitaItemsByHttpClient(text)
+              .do(() => this.responseCount++) // レスポンスが返ってきた回数をカウントする。
         )
-        .startWith([]) // this.items$の初期値をセットする。
+        .startWith([]) // this.itemsの初期値をセットする。
         .subscribe(items => {
           this.items = items;
         });
